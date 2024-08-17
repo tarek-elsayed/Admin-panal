@@ -1,0 +1,15 @@
+.container-fluid {
+  display: flex;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 200px; /* Adjust according to sidebar width */
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0; /* Remove left margin on small screens */
+  }
+}
