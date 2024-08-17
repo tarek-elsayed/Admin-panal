@@ -91,7 +91,6 @@ export class CategoriesComponent {
   }
   onSearch(): void {
     const searchTerm = this.searchForm.value.searchTerm.toLowerCase();
-    debugger
     for(let i = 0; i <this.categories.length; i++ ){
       if(this.categories[i].toLowerCase() === searchTerm){
         this.searchCategories = [];
