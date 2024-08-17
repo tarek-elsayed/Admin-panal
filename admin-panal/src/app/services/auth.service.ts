@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
+  subject = new BehaviorSubject(false);
   private loggedIn = false;
 
   constructor(private router: Router) { }
@@ -22,10 +23,12 @@ export class AuthService {
 
   logout() {
     this.loggedIn = false;
+    this.subject.next(this.loggedIn);
     this.router.navigate(['/login']);
   }
 
   isAuthenticated(): boolean {
+    this.subject.next(this.loggedIn);
     return this.loggedIn;
   }
 }
