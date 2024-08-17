@@ -9,6 +9,18 @@
       </div>
       <button type="submit" class="btn btn-primary mt-3">{{ editingCategoryId ? 'Update' : 'Add' }} Category</button>
     </form>
+    <div class="mt-4">
+      <form [formGroup]="searchForm" class="mb-4">
+          <div class="row col-md-12">
+            <!-- Search Input on the Right -->
+            <div class=" d-flex justify-content-end">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search products..." formControlName="searchTerm">
+              </div>
+            </div>
+          </div>
+        </form>
+  </div>
   
     <!-- Category List -->
     <div class="mt-4">
@@ -20,7 +32,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let category of categoriesList"> 
+          <tr *ngFor="let category of searchCategories"> 
             <td>{{ category.name }}</td>
             <td>
                 <div class="button-group">

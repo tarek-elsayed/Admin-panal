@@ -9,12 +9,22 @@ import { ProductService } from '../../services/product.service';
 })
 export class ProductsComponent {
   products: any[] = [];
-  productForm: FormGroup;
-  searchForm: FormGroup;
+  searchProducts: any[] = [];
+  productForm!: FormGroup;
+  searchForm!: FormGroup;
   selectedProduct: any = null;
   editingProductId: number | null = null;
 
-  constructor(private productService: ProductService, private fb: FormBuilder) {
+  constructor(
+    private productService: ProductService,
+    private fb: FormBuilder,) {}
+
+  ngOnInit(): void {
+    this.initForm();
+    this.loadProducts();
+    this.searchForm.valueChanges.subscribe(() => this.onSearch());
+  }
+  initForm(){
     this.productForm = this.fb.group({
       title: ['', Validators.required],
       price: ['', Validators.required],
@@ -25,17 +35,12 @@ export class ProductsComponent {
     this.searchForm = this.fb.group({
       searchTerm: [''],
     });
-  
-  }
-
-  ngOnInit(): void {
-    this.loadProducts();
-    this.searchForm.valueChanges.subscribe(() => this.onSearch());
   }
 
   loadProducts(): void {
     this.productService.getProducts().subscribe(data => {
       this.products = data;
+      this.searchProducts = data;
     });
   }
 
@@ -46,6 +51,7 @@ export class ProductsComponent {
   }
 
   onDelete(id: number): void {
+    debugger
     if (confirm('Are you sure you want to delete this product?')) {
       this.productService.deleteProduct(id).subscribe(() => {
         this.loadProducts();
@@ -54,6 +60,11 @@ export class ProductsComponent {
   }
   onSearch(): void {
     
+    const searchTerm = this.searchForm.value.searchTerm.toLowerCase();
+
+    this.searchProducts = this.products.filter(product =>
+      product.title.toLowerCase().includes(searchTerm)
+    );
   }
 
   onSubmit(): void {
