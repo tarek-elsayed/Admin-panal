@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
+import { Subject, takeUntil } from 'rxjs';
+import { Product } from '../../interface/product';
 
 @Component({
   selector: 'app-products',
@@ -8,16 +10,19 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './products.component.css'
 })
 export class ProductsComponent {
-  products: any[] = [];
-  searchProducts: any[] = [];
+  products: Product[] = [];
+  searchProducts: Product[] = [];
   productForm!: FormGroup;
   searchForm!: FormGroup;
   selectedProduct: any = null;
   editingProductId: number | null = null;
-
+  _unsubscribeAll: Subject<any>;
   constructor(
     private productService: ProductService,
-    private fb: FormBuilder,) {}
+    private fb: FormBuilder,) {
+    this._unsubscribeAll = new Subject();
+
+    }
 
   ngOnInit(): void {
     this.initForm();
@@ -38,7 +43,7 @@ export class ProductsComponent {
   }
 
   loadProducts(): void {
-    this.productService.getProducts().subscribe(data => {
+    this.productService.getProducts().pipe(takeUntil(this._unsubscribeAll)).subscribe(data => {
       this.products = data;
       this.searchProducts = data;
     });
@@ -53,7 +58,7 @@ export class ProductsComponent {
   onDelete(id: number): void {
     debugger
     if (confirm('Are you sure you want to delete this product?')) {
-      this.productService.deleteProduct(id).subscribe(() => {
+      this.productService.deleteProduct(id).pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
         this.loadProducts();
       });
     }
@@ -72,24 +77,29 @@ export class ProductsComponent {
       const productData = this.productForm.value;
       if (this.editingProductId) {
         // Edit existing product
-        this.productService.updateProduct(this.editingProductId, productData).subscribe(() => {
+        this.productService.updateProduct(this.editingProductId, productData).pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
           this.resetForm();
           this.loadProducts();
         });
       } else {
         // Add new product
-        this.productService.createProduct(productData).subscribe(() => {
+        this.productService.createProduct(productData).pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
           this.resetForm();
           this.loadProducts();
         });
       }
     }
   }
-
+  // Rest Form
   resetForm(): void {
     this.productForm.reset();
     this.selectedProduct = null;
     this.editingProductId = null;
   }
 
+  // Clean up method
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+  }
 }

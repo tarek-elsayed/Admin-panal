@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
@@ -15,12 +16,13 @@ export class CategoriesComponent {
   searchForm!: FormGroup;
   selectedCategory: any = null;
   editingCategoryId: number | null = null;
-
+  _unsubscribeAll: Subject<any>;
   constructor(
     private categoryService: CategoryService,
     private fb: FormBuilder
   ) {
-    
+    this._unsubscribeAll = new Subject();
+
   }
 
   ngOnInit(): void {
@@ -40,7 +42,7 @@ export class CategoriesComponent {
     });
   }
   loadCategories(): void {
-    this.categoryService.getCategories().subscribe((data) => {
+    this.categoryService.getCategories().pipe(takeUntil(this._unsubscribeAll)).subscribe((data) => {
       this.categories = data;
       // arrow function save context when calling
       this.categories.filter((item, index) => {
@@ -61,7 +63,7 @@ export class CategoriesComponent {
 
   onDelete(id: number): void {
     if (confirm('Are you sure you want to delete this category?')) {
-      this.categoryService.deleteCategory(id).subscribe(() => {
+      this.categoryService.deleteCategory(id).pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
         this.loadCategories();
       });
     }
@@ -75,14 +77,14 @@ export class CategoriesComponent {
         debugger
         // Edit existing category
         this.categoryService
-          .updateCategory(this.editingCategoryId, categoryData)
+          .updateCategory(this.editingCategoryId, categoryData).pipe(takeUntil(this._unsubscribeAll))
           .subscribe(() => {
             this.resetForm();
             this.loadCategories();
           });
       } else {
         // Add new category
-        this.categoryService.createCategory(categoryData).subscribe(() => {
+        this.categoryService.createCategory(categoryData).pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
           this.resetForm();
           this.loadCategories();
         });
@@ -106,9 +108,15 @@ export class CategoriesComponent {
     };
   }
 
+  //rest Form
   resetForm(): void {
     this.categoryForm.reset();
     this.selectedCategory = null;
     this.editingCategoryId = null;
+  }
+  // Clean up method
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
   }
 }
