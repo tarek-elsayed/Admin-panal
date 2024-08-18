@@ -1,7 +1,9 @@
 .container {
     margin-top: 20px;
   }
-  
+  img{
+    width: 100px
+  }
   .table img {
     max-width: 100px;
     height: auto;
@@ -13,4 +15,17 @@
   
   .btn-sm {
     padding: 5px 10px; 
+  }
+  .priceTD{
+    width: 80px;
+  }
+  input{
+    margin:5px 0;
+  }
+  textarea{
+    margin: 5px 0;
+  }
+  .addButton{
+    color: white;
+    background-color: #567ca1;
   }

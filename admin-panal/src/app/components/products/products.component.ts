@@ -7,35 +7,34 @@ import { Product } from '../../interface/product';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrl: './products.component.css'
+  styleUrl: './products.component.css',
 })
 export class ProductsComponent {
   products: Product[] = [];
   searchProducts: Product[] = [];
+  addEditProducts: Product[] = [];
   productForm!: FormGroup;
   searchForm!: FormGroup;
   selectedProduct: any = null;
   editingProductId: number | null = null;
   _unsubscribeAll: Subject<any>;
-  constructor(
-    private productService: ProductService,
-    private fb: FormBuilder,) {
-    this._unsubscribeAll = new Subject();
 
-    }
+  constructor(private productService: ProductService, private fb: FormBuilder) {
+    this._unsubscribeAll = new Subject();
+  }
 
   ngOnInit(): void {
     this.initForm();
     this.loadProducts();
     this.searchForm.valueChanges.subscribe(() => this.onSearch());
   }
-  initForm(){
+  initForm() {
     this.productForm = this.fb.group({
       title: ['', Validators.required],
       price: ['', Validators.required],
       description: [''],
       image: [''],
-      category: ['']
+      category: [''],
     });
     this.searchForm = this.fb.group({
       searchTerm: [''],
@@ -43,10 +42,14 @@ export class ProductsComponent {
   }
 
   loadProducts(): void {
-    this.productService.getProducts().pipe(takeUntil(this._unsubscribeAll)).subscribe(data => {
-      this.products = data;
-      this.searchProducts = data;
-    });
+    this.productService
+      .getProducts()
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((data) => {
+        this.products = data;
+        this.searchProducts = data;
+        this.addEditProducts = data;
+      });
   }
 
   onEdit(product: any): void {
@@ -56,18 +59,19 @@ export class ProductsComponent {
   }
 
   onDelete(id: number): void {
-    debugger
     if (confirm('Are you sure you want to delete this product?')) {
-      this.productService.deleteProduct(id).pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
-        this.loadProducts();
-      });
+      this.productService
+        .deleteProduct(id)
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe(() => {
+          this.loadProducts();
+        });
     }
   }
   onSearch(): void {
-    
     const searchTerm = this.searchForm.value.searchTerm.toLowerCase();
-
-    this.searchProducts = this.products.filter(product =>
+    this.searchProducts = this.addEditProducts;
+    this.searchProducts = this.products.filter((product) =>
       product.title.toLowerCase().includes(searchTerm)
     );
   }
@@ -77,18 +81,36 @@ export class ProductsComponent {
       const productData = this.productForm.value;
       if (this.editingProductId) {
         // Edit existing product
-        this.productService.updateProduct(this.editingProductId, productData).pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
-          this.resetForm();
-          this.loadProducts();
-        });
+        this.productService
+          .updateProduct(this.editingProductId, productData)
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe((res) => {
+            this.EditProduct(res)
+            this.resetForm();
+            // this.loadProducts();
+          });
       } else {
         // Add new product
-        this.productService.createProduct(productData).pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
-          this.resetForm();
-          this.loadProducts();
-        });
+        this.productService
+          .createProduct(productData)
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe((res) => {
+            this.addProduct(res);
+            this.resetForm();
+            // this.loadProducts();
+          });
       }
     }
+  }
+  EditProduct(product:Product){
+    for(let i = 0; i < this.searchProducts.length; i++ ){
+      if(product.id == this.searchProducts[i].id ){
+        this.searchProducts[i] = product;
+      }
+    }
+  }
+  addProduct(product:Product){
+    this.searchProducts.push(product);
   }
   // Rest Form
   resetForm(): void {

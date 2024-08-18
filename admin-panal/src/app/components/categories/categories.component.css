@@ -14,3 +14,10 @@
   .btn-sm {
     padding: 5px 10px; 
   }
+  input{
+    margin:5px 0;
+  }
+  .addButton{
+    color: white;
+    background-color: #567ca1;
+  }

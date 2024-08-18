@@ -74,7 +74,6 @@ export class CategoriesComponent {
       const categoryData = this.categoryForm.value;
 
       if (this.editingCategoryId) {
-        debugger
         // Edit existing category
         this.categoryService
           .updateCategory(this.editingCategoryId, categoryData).pipe(takeUntil(this._unsubscribeAll))

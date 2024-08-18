@@ -22,7 +22,7 @@
   }
   
   .nav-link {
-    color: #007bff;
+    color: #5195d8;
     text-decoration: none;
   }
   
@@ -37,5 +37,9 @@
   
   .btn-danger {
     margin-left: auto;
+  }
+  .logoutButton{
+    color: white;
+    background-color: #567ca1;
   }
   

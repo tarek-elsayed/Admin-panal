@@ -1,24 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   subject = new BehaviorSubject(false);
-  private loggedIn = false;
+  private loggedIn = true;
+   private apiUrl = 'https://fakestoreapi.com/auth/login';
 
-  constructor(private router: Router) { }
-
-  login(username: string, password: string): boolean {
+  constructor(private router: Router, private http : HttpClient) { }
+  
+  login(username: string, password: string) {
     // Simple example; replace with real authentication logic
-    if (username === 'admin' && password === 'admin') {
-      this.loggedIn = true;
-      this.router.navigate(['/admin/products']);
-      return true;
+    const data = {
+      username: username,
+      password: password
     }
-    return false;
+      return this.http.post(this.apiUrl, data)
+    // if (username === 'admin' && password === 'admin') {
+    //   this.loggedIn = true;
+    //   this.router.navigate(['/admin/products']);
+    //   return true;
+    // }
+    // return false;
   }
 
   logout() {
@@ -28,6 +35,7 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
+    this.loggedIn = true;
     this.subject.next(this.loggedIn);
     return this.loggedIn;
   }
