@@ -1,45 +1,44 @@
 .header {
-    background-color: #f8f9fa;
-    padding: 10px;
-    border-bottom: 1px solid #dee2e6;
-  }
-  
-  .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .nav {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-  }
-  
-  .nav-item {
-    margin-right: 15px;
-  }
-  
-  .nav-link {
-    color: #5195d8;
-    text-decoration: none;
-  }
-  
-  .nav-link.active {
-    font-weight: bold;
-    text-decoration: none;
-  }
-  
-  .user-info {
-    font-size: 1.2rem;
-  }
-  
-  .btn-danger {
-    margin-left: auto;
-  }
-  .logoutButton{
-    color: white;
-    background-color: #567ca1;
-  }
-  
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.nav-item {
+  margin-right: 15px;
+}
+
+.nav-link {
+  color: #5195d8;
+  text-decoration: none;
+}
+
+.nav-link.active {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.user-info {
+  font-size: 1.2rem;
+}
+
+.btn-danger {
+  margin-left: auto;
+}
+.logoutButton {
+  color: white;
+  background-color: #567ca1;
+}

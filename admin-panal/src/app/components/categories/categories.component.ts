@@ -22,18 +22,17 @@ export class CategoriesComponent {
     private fb: FormBuilder
   ) {
     this._unsubscribeAll = new Subject();
-
   }
 
   ngOnInit(): void {
     this.initForm();
     this.loadCategories();
-    this.searchForm.valueChanges.subscribe(()=>{
+    this.searchForm.valueChanges.subscribe(() => {
       this.onSearch();
-    })
+    });
   }
 
-  initForm(){
+  initForm() {
     this.categoryForm = this.fb.group({
       name: ['', Validators.required],
     });
@@ -42,17 +41,20 @@ export class CategoriesComponent {
     });
   }
   loadCategories(): void {
-    this.categoryService.getCategories().pipe(takeUntil(this._unsubscribeAll)).subscribe((data) => {
-      this.categories = data;
-      // arrow function save context when calling
-      this.categories.filter((item, index) => {
-        this.categoriesList.push({
-          id: index + 1,
-          name: item,
+    this.categoryService
+      .getCategories()
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((data) => {
+        this.categories = data;
+        // arrow function save context when calling
+        this.categories.filter((item, index) => {
+          this.categoriesList.push({
+            id: index + 1,
+            name: item,
+          });
         });
+        this.searchCategories = this.categoriesList;
       });
-      this.searchCategories = this.categoriesList ;
-    });
   }
 
   onEdit(category: any): void {
@@ -63,9 +65,12 @@ export class CategoriesComponent {
 
   onDelete(id: number): void {
     if (confirm('Are you sure you want to delete this category?')) {
-      this.categoryService.deleteCategory(id).pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
-        this.loadCategories();
-      });
+      this.categoryService
+        .deleteCategory(id)
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe(() => {
+          this.loadCategories();
+        });
     }
   }
 
@@ -76,35 +81,38 @@ export class CategoriesComponent {
       if (this.editingCategoryId) {
         // Edit existing category
         this.categoryService
-          .updateCategory(this.editingCategoryId, categoryData).pipe(takeUntil(this._unsubscribeAll))
+          .updateCategory(this.editingCategoryId, categoryData)
+          .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(() => {
             this.resetForm();
             this.loadCategories();
           });
       } else {
         // Add new category
-        this.categoryService.createCategory(categoryData).pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
-          this.resetForm();
-          this.loadCategories();
-        });
+        this.categoryService
+          .createCategory(categoryData)
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(() => {
+            this.resetForm();
+            this.loadCategories();
+          });
       }
     }
   }
   onSearch(): void {
     const searchTerm = this.searchForm.value.searchTerm.toLowerCase();
-    for(let i = 0; i <this.categories.length; i++ ){
-      if(this.categories[i].toLowerCase() === searchTerm){
+    for (let i = 0; i < this.categories.length; i++) {
+      if (this.categories[i].toLowerCase() === searchTerm) {
         this.searchCategories = [];
         this.searchCategories.push({
           id: i + 1,
           name: searchTerm,
         });
         break;
+      } else {
+        this.searchCategories = this.categoriesList;
       }
-      else{
-        this.searchCategories = this.categoriesList ;
-        }
-    };
+    }
   }
 
   //rest Form

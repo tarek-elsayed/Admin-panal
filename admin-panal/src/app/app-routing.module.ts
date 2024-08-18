@@ -14,14 +14,14 @@ const routes: Routes = [
     children: [
       { path: 'products', component: ProductsComponent },
       { path: 'categories', component: CategoriesComponent },
-      { path: '', redirectTo: 'products', pathMatch: 'full' }
-    ]
+      { path: '', redirectTo: 'products', pathMatch: 'full' },
+    ],
   },
-  { path: '**', redirectTo: '/login' }
+  { path: '**', redirectTo: '/login' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,23 +1,23 @@
 .container {
-    margin-top: 20px;
-  }
-  
-  .table {
-    margin-top: 20px;
-  }
+  margin-top: 20px;
+}
 
-  .button-group {
-    display: flex;
-    gap: 10px; 
-  }
-  
-  .btn-sm {
-    padding: 5px 10px; 
-  }
-  input{
-    margin:5px 0;
-  }
-  .addButton{
-    color: white;
-    background-color: #567ca1;
-  }
+.table {
+  margin-top: 20px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+}
+input {
+  margin: 5px 0;
+}
+.addButton {
+  color: white;
+  background-color: #567ca1;
+}

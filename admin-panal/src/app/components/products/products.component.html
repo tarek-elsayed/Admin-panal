@@ -1,77 +1,113 @@
 <div class="container">
-    <h2>Products</h2>
-  
-    <!-- Product Form -->
-    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-      <div class="row">
-        <div class="col-md-6">
+  <h2>Products</h2>
+
+  <!-- Product Form -->
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            class="form-control"
+            formControlName="title"
+          />
+        </div>
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input
+            type="number"
+            id="price"
+            class="form-control"
+            formControlName="price"
+          />
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            class="form-control"
+            formControlName="description"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="image">Image URL</label>
+          <input
+            type="text"
+            id="image"
+            class="form-control"
+            formControlName="image"
+          />
+        </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <input
+            type="text"
+            id="category"
+            class="form-control"
+            formControlName="category"
+          />
+        </div>
+        <button type="submit" class="btn addButton mt-3">
+          {{ editingProductId ? "Update" : "Add" }} Product
+        </button>
+      </div>
+    </div>
+  </form>
+  <div class="mt-4">
+    <form [formGroup]="searchForm" class="mb-4">
+      <div class="row col-md-12">
+        <!-- Search Input on the Right -->
+        <div class="d-flex justify-content-end">
           <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" id="title" class="form-control" formControlName="title">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search products..."
+              formControlName="searchTerm"
+            />
           </div>
-          <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" id="price" class="form-control" formControlName="price">
-          </div>
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" class="form-control" formControlName="description"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="image">Image URL</label>
-            <input type="text" id="image" class="form-control" formControlName="image">
-          </div>
-          <div class="form-group">
-            <label for="category">Category</label>
-            <input type="text" id="category" class="form-control" formControlName="category">
-            </div>
-          <button type="submit" class="btn addButton mt-3">{{ editingProductId ? 'Update' : 'Add' }} Product</button>
         </div>
       </div>
     </form>
-    <div class="mt-4">
-        <form [formGroup]="searchForm" class="mb-4">
-            <div class="row col-md-12">
-              <!-- Search Input on the Right -->
-              <div class=" d-flex justify-content-end">
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Search products..." formControlName="searchTerm">
-                </div>
-              </div>
-            </div>
-          </form>
-    </div>
-
-  
-    <!-- Product List -->
-    <div class="mt-4">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let product of searchProducts">
-              <td><img [src]="[product.image]" alt="Product Image" ></td>
-            <td>{{ product.title }}</td>
-            <td class="priceTD">{{ product.price }} $</td>
-            <td>{{ product.description }}</td>
-            <td>{{ product.category }}</td>
-            <td>
-                <div class="button-group">
-                    <button class="btn btn-success btn-sm" (click)="onEdit(product)">Edit</button>
-                    <button class="btn btn-danger btn-sm" (click)="onDelete(product.id)">Delete</button>
-                </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
-  
+
+  <!-- Product List -->
+  <div class="mt-4">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Price</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of searchProducts">
+          <td><img [src]="[product.image]" alt="Product Image" /></td>
+          <td>{{ product.title }}</td>
+          <td class="priceTD">{{ product.price }} $</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.category }}</td>
+          <td>
+            <div class="button-group">
+              <button class="btn btn-success btn-sm" (click)="onEdit(product)">
+                Edit
+              </button>
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="onDelete(product.id)"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

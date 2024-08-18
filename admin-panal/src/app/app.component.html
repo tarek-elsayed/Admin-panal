@@ -1,10 +1,10 @@
 <div class="container-fluid">
   <!-- Sidebar -->
   <app-sidebar *ngIf="loggedIn"></app-sidebar>
-  
+
   <div *ngIf="loggedIn" class="main-content">
     <!-- Header -->
-    <app-header ></app-header>
+    <app-header></app-header>
     <!-- Router Outlet for Dynamic Content -->
     <router-outlet></router-outlet>
   </div>

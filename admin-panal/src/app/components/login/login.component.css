@@ -3,13 +3,13 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #b9b7b7
+  background-color: #b9b7b7;
 }
 form {
   width: 100%;
   max-width: 600px;
   padding: 20px;
-  background-color:white;
+  background-color: white;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
@@ -29,8 +29,8 @@ h2 {
   border-radius: 5px;
   border: 1px solid #ccc;
 }
-label{
-font-weight: bold;
+label {
+  font-weight: bold;
 }
 
 .btn {
@@ -39,7 +39,7 @@ font-weight: bold;
   font-size: 16px;
   border-radius: 5px;
 }
-.loginButton{
+.loginButton {
   color: white;
   background-color: #567ca1;
 }

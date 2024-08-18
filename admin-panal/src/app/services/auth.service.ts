@@ -4,22 +4,22 @@ import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   subject = new BehaviorSubject(false);
   private loggedIn = true;
-   private apiUrl = 'https://fakestoreapi.com/auth/login';
+  private apiUrl = 'https://fakestoreapi.com/auth/login';
 
-  constructor(private router: Router, private http : HttpClient) { }
-  
+  constructor(private router: Router, private http: HttpClient) {}
+
   login(username: string, password: string) {
     // Simple example; replace with real authentication logic
     const data = {
       username: username,
-      password: password
-    }
-      return this.http.post(this.apiUrl, data)
+      password: password,
+    };
+    return this.http.post(this.apiUrl, data);
     // if (username === 'admin' && password === 'admin') {
     //   this.loggedIn = true;
     //   this.router.navigate(['/admin/products']);

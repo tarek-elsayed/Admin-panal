@@ -3,13 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoryService {
-
   private apiUrl = 'https://fakestoreapi.com/products/categories'; // Replace with actual API
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getCategories(): Observable<any> {
     return this.http.get(this.apiUrl);

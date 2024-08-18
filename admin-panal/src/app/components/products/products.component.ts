@@ -85,7 +85,7 @@ export class ProductsComponent {
           .updateProduct(this.editingProductId, productData)
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((res) => {
-            this.EditProduct(res)
+            this.EditProduct(res);
             this.resetForm();
             // this.loadProducts();
           });
@@ -102,14 +102,14 @@ export class ProductsComponent {
       }
     }
   }
-  EditProduct(product:Product){
-    for(let i = 0; i < this.searchProducts.length; i++ ){
-      if(product.id == this.searchProducts[i].id ){
+  EditProduct(product: Product) {
+    for (let i = 0; i < this.searchProducts.length; i++) {
+      if (product.id == this.searchProducts[i].id) {
         this.searchProducts[i] = product;
       }
     }
   }
-  addProduct(product:Product){
+  addProduct(product: Product) {
     this.searchProducts.push(product);
   }
   // Rest Form

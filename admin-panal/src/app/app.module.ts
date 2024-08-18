@@ -17,7 +17,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     ProductsComponent,
     CategoriesComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,6 +26,6 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
